@@ -30,9 +30,75 @@ You need to also install <a href="https://numpy.org/">Numpy</a>, <a href="https:
 ```console
 python3 compute_projqm -a reference PC -b degraded PC -c config.ini -o output.csv
 ```
-Note that path to PCs is set inside the config file, they are brought to command line arguments to make it easier to run metric for a batch of PCs.
-If you want to save point clouds, <b>savePCs</b> should be set to 1 (savePCs = 1)
-If you want to save projected images, <b>saveImages</b> should be set to 1 (saveImages = 1). All images of the PC should be stored in a separate folder. The path to this folder is set inside the configuration file.
+<p>Note that path to PCs is set inside the config file, they are brought to command line arguments to make it easier to run metric for a batch of PCs.</p>
+<p>If you want to save point clouds, <b>savePCs</b> should be set to 1 (savePCs = 1) </p>
+<p>If you want to save projected images, <b>saveImages</b> should be set to 1 (saveImages = 1). All images of the PC should be stored in a separate folder. The path to this folder is set inside the configuration file.</p>
+<p>Precision of the input point clouds should also be set in the configuration file.</p>
+<p>There is also a flag for each of the 2D quality metrics that you want to be included in the final results<p>
+<p> You can see a sample configuration file below: </p>
+
+```console
+[Paths]
+# Path to directory including reference point clouds
+PCA = C:\AlirezaJav\Datasets\EPFL_MPEG_Codecs\stimuli\  
+# Path to directory including reference point clouds                           
+PCB = C:\AlirezaJav\Datasets\EPFL_MPEG_Codecs\stimuli\	
+# Path to directory including recolored reference point clouds                         
+PCA_rec = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\Recolored PCs\
+# Path to directory including recolroed degraded point clouds 
+PCB_rec = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\Recolored PCs\
+# Path to directory including six projected images of the reference point cloud (All six projected images of a point cloud should be in a folder)
+RefImages = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\RefImages\
+# Path to directory including six projected images of the degraded point cloud (All six projected images of a point cloud should be in a folder)
+DegImages = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\DegImages\
+# Path to directory including six projected images of the recolored reference point cloud (All six projected images of a point cloud should be in a folder)
+RefImages_rec = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\RecoloredRefImages\
+# Path to directory including six projected images of the recolored degraded point cloud (All six projected images of a point cloud should be in a folder)
+DegImages_rec = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\RecoloredDegImages\
+# Path to directory including six occupancy maps of the reference point cloud (All six occupancy maps of a point cloud should be in a folder)
+RefOMs = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\RefOMs\
+# Path to directory including six occupancy maps of the degraded point cloud (All six occupancy maps of a point cloud should be in a folder)
+DegOMs = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\DegOms\
+
+[Flags]
+# Set to 1 if projected images are available and there is no need for projection, 0 otherwise
+projected = 0
+# Set to 1 if recolored point clouds are saved before and there is no need for recoloring, 0 otherwise
+Recolored = 0
+# Set to 1 to save recolored point clouds for further use
+savePCs = 1
+# Set to 1 to save projected images after pre-processing, otherwise 0 (they can be evaluate directly by 2D metric later)
+saveImages = 1
+
+
+[parameters]
+# precision of the input PC
+precision = 10
+# window search size for filtering points after projection. Put zero if you don't want filtering (W = 2*window size + 1)
+window size = 2
+
+[2D Metrics]
+# compute DISTS
+dists = 1
+# compute LPIPS
+lpips = 1
+# compute FSIM
+fsim = 1
+# compute VSI
+vsi = 1
+# compute HaarPSI
+haarpsi = 1
+# compute VIFp
+vifp = 1
+# compute SSIM
+ssim = 1
+# compute MS-SSIM
+ms-ssim = 1
+# compute HVS PSNR and HVS PSNR M
+psnr-hvs = 1
+# compute PSNR
+psnr = 1
+```
 
 <p>This Repository will contain the source code of the metric proposed in:</p>
 A.Javaheri, C. Brites, F. Pereira, J. Ascenso "Joint Geometry and Color Projection-based Point Cloud Quality Metric" <b>submitted to</b> <i>IEEE Transactions on Multimedia</i>.
