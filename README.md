@@ -109,6 +109,135 @@ If projected images are saved and you need to only compute a new 2D metric, proj
 ```console
 python3 compute_projqm.py -c config.ini -o output.csv
 ```
-
+<b> Performance </b>
+<p> Below table shows the objective-Subjective correlation performance of this metric, compared with most famous state-of-the-art metrics using the MOS scores provied in <a href="https://www.epfl.ch/labs/mmspg/downloads/quality-assessment-for-point-cloud-compression">M-PCCD</a> dataset. </p>
+<table style="width:50%" align="center">
+  <tr>
+    <th>Type</th>
+    <th>Metric</th>
+    <th>SROCC</th> 
+    <th>PLCC</th>
+    <th>RMSE</th>
+  </tr>
+  <tr>
+    <td>Point-to-Point</td>
+    <td>D1-PSNR</td>
+    <td>79.1</td>
+    <td>77.7</td>
+    <td>0.857</td>
+  </tr>
+  <tr>
+    <td>Point-to-Point</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9123087/">GH 98% PSNR</a></td>
+    <td>86.9</td>
+    <td>84.6</td>
+    <td>0.726</td>
+  </tr>
+  <tr>
+    <td>Point-to-Point</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9191233">RA-PSNR (APD<sub>10</sub>)</a></td>
+    <td>90.2</td>
+    <td>88.8</td>
+    <td>0.626</td>
+  </tr>
+  <tr>
+    <td>Point-to-Point</td>
+    <td>Y-PSNR</td>
+    <td>66.2</td>
+    <td>67.1</td>
+    <td>1.009</td>
+  </tr>
+  <tr>
+    <td>Point-to-Plane</td>
+    <td>D2-PSNR</td>
+    <td>83.8</td>
+    <td>80.5</td>
+    <td>0.808</td>
+  </tr>
+  <tr>
+    <td>Point-to-Plane</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9123087/">GH 98% PSNR</a></td>
+    <td>87.9</td>
+    <td>84.3</td>
+    <td>0.731</td>
+  </tr>
+  <tr>
+    <td>Point-to-Plane</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9191233">RA-PSNR (APD<sub>10</sub>)</a></td>
+    <td>89.9</td>
+    <td>88.9</td>
+    <td>0.622</td>
+  </tr>
+  <tr>
+    <td>Feature-Based</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9106005">PointSSIM</a></td>
+    <td>91.8</td>
+    <td>92.6</td>
+    <td>0.514</td>
+  </tr>
+  <tr>
+    <td>Feature-Based</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9123089">d<sub>gc</sub></a></td>
+    <td>92.0</td>
+    <td>90.4</td>
+    <td>0.585</td>
+  </tr>
+  <tr>
+    <td>Feature-Based</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9123089">H<sup>Y</sup><sub>L2</sub></a></td>
+    <td>88.4</td>
+    <td>85.3</td>
+    <td>0.710</td>
+  </tr>
+  <tr>
+    <td>Feature-Based</td>
+    <td><a href="https://ieeexplore.ieee.org/abstract/document/9198142">PCM<sub>RR</sub>(MCCV)</a></td>
+    <td>90.7</td>
+    <td>90.2</td>
+    <td>0.573</td>
+  </tr>
+  <tr>
+    <td>Point-to_Distribution</td>
+    <td>P2D-JGY</td>
+    <td>93.8</td>
+    <td>92.9</td>
+    <td>0.503</td>
+  </tr>
+  <tr>
+    <td>Point-to_Distribution</td>
+    <td>LogP2D-JGY</td>
+    <td>93.8</td>
+    <td>92.9</td>
+    <td>0.502</td>
+  </tr>
+  <tr>
+    <td>Projection-based</td>
+    <td>JGC-ProjQM-FSIM</td>
+    <td>90.1</td>
+    <td>88.2</td>
+    <td>0.640</td>
+  </tr>
+  <tr>
+    <td>Projection-based</td>
+    <td>JGC-ProjQM-VSI</td>
+    <td>87.6</td>
+    <td>85.4</td>
+    <td>0.707</td>
+  </tr>
+  <tr>
+    <td>Projection-based</td>
+    <td>JGC-ProjQM-LPIPS</td>
+    <td>93.2</td>
+    <td>92.3</td>
+    <td>0.523</td>
+  </tr>
+  <tr>
+    <td>Projection-based</td>
+    <td>JGC-ProjQM-DISTS</td>
+    <td><b>95.6</b></td>
+    <td><b>94.7</b></td>
+    <td><b>0.439</b></td>
+  </tr>
+</table>
 <p>This Repository will contain the source code of the metric proposed in:</p>
 A.Javaheri, C. Brites, F. Pereira, J. Ascenso "Joint Geometry and Color Projection-based Point Cloud Quality Metric" <b>submitted to</b> <i>IEEE Transactions on Multimedia</i>.
