@@ -18,8 +18,8 @@ import time
 def main():
     # input parser
     parser = argparse.ArgumentParser(description="Projection-based metric for Pc quality assessment")
-    parser.add_argument('-a', nargs=1, help='Reference point cloud')
-    parser.add_argument('-b', nargs=1, help='Degraded point cloud')
+    parser.add_argument('-a', nargs=1, default='', help='Reference point cloud')
+    parser.add_argument('-b', nargs=1, default='', help='Degraded point cloud')
     parser.add_argument('-ar', nargs=1, default='', help='Reference point cloud recolored with degraded color')
     parser.add_argument('-br', nargs=1, default='', help='Degraded point cloud recolored with reference color')
     parser.add_argument('-c', '--config', nargs=1, type=str,  
@@ -145,6 +145,12 @@ def main():
         DegPath = config["pathDeg"]
         refPC = cli_args.a.pop()
         degPC = cli_args.b.pop()
+		if (refPC == ''):
+            print('No Reference PC!')
+            return
+        if (refPC == ''):
+            print('No Degraded PC!')
+            return
         fnR = RefPath + refPC;
         fnD = DegPath + degPC;
         cloudR = o3d.io.read_point_cloud(fnR) 
@@ -158,6 +164,12 @@ def main():
             DegPath_rec = config["pathDeg_rec"]
             refPC_rc = cli_args.ar.pop()
             degPC_rc = cli_args.br.pop()
+			if (refPC_rc == ''):
+                print('No Recolored Reference PC!')
+            return
+            if (refPC_rc == ''):
+                print('No Recolored Degraded PC!')
+            return
             fnRR = RefPath_rec + refPC_rc;
             fnRD = DegPath_rec + degPC_rc;
             RecoloredR = o3d.io.read_point_cloud(fnRR) 
