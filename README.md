@@ -7,7 +7,7 @@
 ```console
 pip install IQA_pytorch
 ```
-<p> An <a href="http://ponomarenko.info/psnrhvsm.htm">Implementation</p> of PSNR HVS is included inside the metric files. The associated papers are cited in our published article. 
+<p> An <a href="http://ponomarenko.info/psnrhvsm.htm">Implementation</a> of PSNR HVS is included inside the metric files. The associated papers are cited in our published article.</p> 
 <a href="http://www.open3d.org/docs/release/getting_started.html">Open3d</a> python packages are also necessary to read/write point clouds.
 
 ```console
