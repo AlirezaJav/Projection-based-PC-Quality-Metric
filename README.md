@@ -199,14 +199,14 @@ python3 compute_projqm.py -c config.ini -o output.csv
   </tr>
   <tr>
     <td>Point-to_Distribution</td>
-    <td>P2D-JGY</td>
+    <td><a href="https://arxiv.org/abs/2108.00054">P2D-JGY</a></td>
     <td>93.8</td>
     <td>92.9</td>
     <td>0.503</td>
   </tr>
   <tr>
     <td>Point-to_Distribution</td>
-    <td>LogP2D-JGY</td>
+    <td><a href="https://arxiv.org/abs/2108.00054">LogP2D-JGY</a></td>
     <td>93.8</td>
     <td>92.9</td>
     <td>0.502</td>
@@ -242,5 +242,5 @@ python3 compute_projqm.py -c config.ini -o output.csv
 </table>
 <b>Reference</b>
 <p>If you are using this metric, please cite the following publications:</p>
-A. Javaheri, C. Brites, F. Pereira, J. Ascenso <a href="https://arxiv.org/abs/2108.00054">"Joint Geometry and Color Projection-based Point Cloud Quality Metric"</a>, <i>arXiv preprint arXiv:2108.00054.</i>, July 2021.
+A. Javaheri, C. Brites, F. Pereira, J. Ascenso <a href="https://arxiv.org/abs/2108.02481">"Joint Geometry and Color Projection-based Point Cloud Quality Metric"</a>, <i>arXiv preprint arXiv:2108.00054.</i>, July 2021.
 <p>This article is submitted to IEEE Transactions on Multimedia.</p>
