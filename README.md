@@ -239,5 +239,7 @@ python3 compute_projqm.py -c config.ini -o output.csv
     <td><b>0.439</b></td>
   </tr>
 </table>
-<p>This Repository will contain the source code of the metric proposed in:</p>
-A.Javaheri, C. Brites, F. Pereira, J. Ascenso "Joint Geometry and Color Projection-based Point Cloud Quality Metric" <b>submitted to</b> <i>IEEE Transactions on Multimedia</i>.
+<b>Reference</b>
+<p>If you are using this metric, please cite the following publications:</p>
+A.Javaheri, C. Brites, F. Pereira, J. Ascenso "Joint Geometry and Color Projection-based Point Cloud Quality Metric" <b>submitted to</b> <i>arXiv preprint arXiv:2108.00054.</i>, July 2021.
+This article is submitted to IEEE Transactions on Multimedia.
