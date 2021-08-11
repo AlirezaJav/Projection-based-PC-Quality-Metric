@@ -28,7 +28,7 @@ You need to also install <a href="https://numpy.org/">Numpy</a>, <a href="https:
 <p>All metric parameters should be set inside the configuration file (config.ini) before running the metric. If it is the first time runing the metric and recolored point clouds are not available:</p>
 
 ```console
-python3 compute_projqm -a reference PC -b degraded PC -c config.ini -o output.csv
+python3 compute_projqm.py -a reference PC -b degraded PC -c config.ini -o output.csv
 ```
 <p>Note that path to PCs is set inside the config file, they are brought to command line arguments to make it easier to run metric for a batch of PCs.</p>
 <p>If you want to save point clouds, <b>savePCs</b> should be set to 1 (savePCs = 1) </p>
@@ -98,6 +98,16 @@ ms-ssim = 1
 psnr-hvs = 1
 # compute PSNR
 psnr = 1
+```
+If Recolored PCs are already available, recolored flag should be set to 1 (Recolored = 1) and run the metric as follows:
+
+```console
+python3 compute_projqm.py -a reference PC -b degraded PC -ar recolored reference PC -br recolored degraded PC -c config.ini -o output.csv
+```
+If projected images are saved and you need to only compute a new 2D metric, projected flag should be set to 1 (projected = 1) and run the metric as follows:
+
+```console
+python3 compute_projqm.py -c config.ini -o output.csv
 ```
 
 <p>This Repository will contain the source code of the metric proposed in:</p>
