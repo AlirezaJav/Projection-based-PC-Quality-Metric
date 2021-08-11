@@ -232,8 +232,8 @@ python3 compute_projqm.py -c config.ini -o output.csv
     <td>0.523</td>
   </tr>
   <tr>
-    <td>Projection-based</td>
-    <td>JGC-ProjQM-DISTS</td>
+    <td><b>Projection-based</b></td>
+    <td><b>JGC-ProjQM-DISTS</b></td>
     <td><b>95.6</b></td>
     <td><b>94.7</b></td>
     <td><b>0.439</b></td>
