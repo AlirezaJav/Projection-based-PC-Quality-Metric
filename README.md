@@ -243,4 +243,4 @@ python3 compute_projqm.py -c config.ini -o output.csv
 <b>Reference</b>
 <p>If you are using this metric, please cite the following publications:</p>
 A. Javaheri, C. Brites, F. Pereira, J. Ascenso <a href="https://arxiv.org/abs/2108.02481">"Joint Geometry and Color Projection-based Point Cloud Quality Metric"</a>, <i>arXiv preprint arXiv:2108.00054.</i>, July 2021.
-<p>This article is submitted to IEEE Transactions on Multimedia.</p>
+<p>This article is submitted to IEEE Access journal.</p>
