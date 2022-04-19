@@ -7,6 +7,11 @@
 ```console
 pip install IQA_pytorch
 ```
+<p>PyTorch Image Quality (<a href="https://github.com/photosynthesis-team/piq">IQA</a>) is also required if you are intending to use HaarPSI metric</p>
+
+```console
+pip install IQA_pytorch
+```
 <p> An <a href="http://ponomarenko.info/psnrhvsm.htm">Implementation</a> of PSNR HVS is included in this repository. The corresponding papers are cited in our published article.</p> 
 <a href="http://www.open3d.org/docs/release/getting_started.html">Open3d</a> python packages are also necessary to read/write point clouds.
 
