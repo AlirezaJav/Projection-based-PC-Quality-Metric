@@ -42,7 +42,7 @@ python3 compute_projqm.py -a reference PC -b degraded PC -c config.ini -o output
 [Paths]
 # Path to directory including reference point clouds
 PCA = C:\AlirezaJav\Datasets\EPFL_MPEG_Codecs\stimuli\  
-# Path to directory including reference point clouds                           
+# Path to directory including degraded point clouds                           
 PCB = C:\AlirezaJav\Datasets\EPFL_MPEG_Codecs\stimuli\	
 # Path to directory including recolored reference point clouds                         
 PCA_rec = C:\AlirezaJav\Projects\Projection-based Metric\Final Software\Recolored PCs\
