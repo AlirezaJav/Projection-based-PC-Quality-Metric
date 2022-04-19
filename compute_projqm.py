@@ -14,6 +14,7 @@ import cv2
 import argparse
 import os
 import time
+from multiprocessing import Pool
 
 def main():
     # input parser
@@ -50,10 +51,33 @@ def main():
         DegPath = config["PathDegImages"]
         RefPath_rec = config["PathRefImages_rec"]
         DegPath_rec = config["PathDegImages_rec"]
-        ImR_padded = ProjQM.load_images_from_folder(RefPath)      # all six projections of each PC should be in a separate folder
-        ImD_padded = ProjQM.load_images_from_folder(DegPath)
-        ImRecR_padded = ProjQM.load_images_from_folder(RefPath_rec)
-        ImRecD_padded = ProjQM.load_images_from_folder(DegPath_rec)
+
+        refPC = cli_args.a.pop()
+        degPC = cli_args.b.pop()
+        refPC_rc = cli_args.ar.pop()
+        degPC_rc = cli_args.br.pop()
+        if (refPC == ''):
+            print('No Reference PC!')
+            return
+        if (refPC == ''):
+            print('No Degraded PC!')
+            return
+        if (refPC_rc == ''):
+            print('No Recolored Reference PC!')
+            return
+        if (degPC_rc == ''):
+            print('No Recolored Degraded PC!')
+            return
+        
+        FolderR = RefPath + refPC
+        FolderD = DegPath + degPC
+        FolderRR = RefPath_rec + refPC_rc
+        FolderRD = DegPath_rec + degPC_rc 
+        
+        ImR_padded = ProjQM.load_images_from_folder(FolderR)      # all six projections of each PC should be in a separate folder
+        ImD_padded = ProjQM.load_images_from_folder(FolderD)
+        ImRecR_padded = ProjQM.load_images_from_folder(FolderRR)
+        ImRecD_padded = ProjQM.load_images_from_folder(FolderRD)
         
         # loop over six projected images
         for i in range(0,6):
@@ -145,14 +169,14 @@ def main():
         DegPath = config["pathDeg"]
         refPC = cli_args.a.pop()
         degPC = cli_args.b.pop()
-		if (refPC == ''):
+        if (refPC == ''):
             print('No Reference PC!')
             return
         if (refPC == ''):
             print('No Degraded PC!')
             return
-        fnR = RefPath + refPC;
-        fnD = DegPath + degPC;
+        fnR = RefPath + refPC + '.ply'
+        fnD = DegPath + degPC + '.ply'
         cloudR = o3d.io.read_point_cloud(fnR) 
         cloudD = o3d.io.read_point_cloud(fnD)
         
@@ -164,28 +188,29 @@ def main():
             DegPath_rec = config["pathDeg_rec"]
             refPC_rc = cli_args.ar.pop()
             degPC_rc = cli_args.br.pop()
-			if (refPC_rc == ''):
-                print('No Recolored Reference PC!')
-            return
             if (refPC_rc == ''):
+                print('No Recolored Reference PC!')
+                return
+            if (degPC_rc == ''):
                 print('No Recolored Degraded PC!')
-            return
-            fnRR = RefPath_rec + refPC_rc;
-            fnRD = DegPath_rec + degPC_rc;
+                return
+            fnRR = RefPath_rec + refPC_rc + '.ply'
+            fnRD = DegPath_rec + degPC_rc + '.ply'
             RecoloredR = o3d.io.read_point_cloud(fnRR) 
             RecoloredD = o3d.io.read_point_cloud(fnRD)
         # if recolored PCs are not provided as input, Reference and Degraded should be recolored
         else:
-            (RecoloredR, RecoloredD) = ProjQM.recolor_pcs(cloudR,cloudD)   # recolors cloudR with color of cloudD and vice versa.
             
+            (RecoloredR, RecoloredD) = ProjQM.recolor_pcs(cloudR,cloudD)   # recolors cloudR with color of cloudD and vice versa.
+           
             # recolred PCs can be saved for further use  
             if (config["savePCs"]):
                 RefPath_rec = config["pathRef_rec"]
                 DegPath_rec = config["pathDeg_rec"]
-                refPC_rc = 'rec_' + refPC
-                degPC_rc = 'rec_' + degPC
-                fnRR = RefPath_rec + refPC_rc;
-                fnRD = DegPath_rec + degPC_rc;
+                refPC_rc = 'rec_rg_' + degPC
+                degPC_rc = 'rec_dg_' + degPC
+                fnRR = RefPath_rec + refPC_rc + '.ply'
+                fnRD = DegPath_rec + degPC_rc + '.ply'
                 directory = os.path.dirname(RefPath_rec)                   # if path directory does not exist, create it!
                 try:
                     os.stat(directory)
@@ -247,57 +272,82 @@ def main():
             # save Images to use
             if (config["saveImages"]):
                 # save only padded cropped images
-                directory = os.path.dirname(config["PathRefImages"])
-                try:                                                           # if path directory does not exist, create it!
-                    os.stat(directory)
-                except:
+                
+                # directory = os.path.dirname(config["PathRefImages"])
+                # try:                                                           # if path directory does not exist, create it!
+                #     os.stat(directory)
+                # except:
+                #     os.mkdir(directory)
+                # fn = config["PathRefImages"] + refPC + str(i) + '.bmp'  
+                if not os.path.exists(config["PathRefImages"]):    # Reference
+                    os.mkdir(config["PathRefImages"])
+                directory = os.path.join(config["PathRefImages"], refPC)
+                if not os.path.exists(directory):
                     os.mkdir(directory)
-                fn = config["PathRefImages"] + refPC + str(i) + '.bmp'         # Reference
+                fn = os.path.join(directory, refPC + str(i) + '.bmp')
                 status = ProjQM.save_images(fn,cv2.cvtColor(ImR_padded, cv2.COLOR_RGB2BGR))
                 print(f'Reference Image from view {i} written to file-system: {status}')
                 
-                directory = os.path.dirname(config["PathDegImages"])           
-                try:                                                           # if path directory does not exist, create it!
-                    os.stat(directory)
-                except:
+                # directory = os.path.dirname(config["PathDegImages"])           
+                # try:                                                           # if path directory does not exist, create it!
+                #     os.stat(directory)
+                # except:
+                #     os.mkdir(directory)
+                # fn = config["PathDegImages"] + degPC + str(i) + '.bmp'         # Degraded
+                if not os.path.exists(config["PathDegImages"]):    # Reference
+                    os.mkdir(config["PathDegImages"])
+                directory = os.path.join( config["PathDegImages"], degPC)
+                if not os.path.exists(directory):
                     os.mkdir(directory)
-                fn = config["PathDegImages"] + degPC + str(i) + '.bmp'         # Degraded
+                fn = os.path.join(directory, degPC + str(i) + '.bmp')         # Degraded
                 status = ProjQM.save_images(fn,cv2.cvtColor(ImD_padded, cv2.COLOR_RGB2BGR))
                 print(f'Degraded Image from view {i} written to file-system: {status}')
                 
-                directory = os.path.dirname(config["PathRefImages_rec"])       
-                try:                                                           # if path directory does not exist, create it!
-                    os.stat(directory)
-                except:
+                # directory = os.path.dirname(config["PathRefImages_rec"])       
+                # try:                                                           # if path directory does not exist, create it!
+                #     os.stat(directory)
+                # except:
+                #     os.mkdir(directory)
+                # fn = config["PathRefImages_rec"] + degPC + '/Recolored_' + refPC + str(i) + '.bmp'   # Recolored Reference
+                if not os.path.exists(config["PathRefImages_rec"]):    # Reference
+                    os.mkdir(config["PathRefImages_rec"])
+                directory = os.path.join( config["PathRefImages_rec"], refPC_rc)
+                if not os.path.exists(directory):
                     os.mkdir(directory)
-                fn = config["PathRefImages_rec"] + 'Recolored_' + refPC + str(i) + '.bmp'   # Recolored Reference
+                fn = os.path.join(directory, 'Recolored_' + degPC + str(i) + '.bmp')  # Recolored Reference
                 status = ProjQM.save_images(fn,cv2.cvtColor(ImRecR_padded, cv2.COLOR_RGB2BGR))
                 print(f'Recolored Reference Image from view {i} written to file-system: {status}')
                 
-                directory = os.path.dirname(config["PathDegImages_rec"])
-                try:                                                           # if path directory does not exist, create it!
-                    os.stat(directory)
-                except:
+                # directory = os.path.dirname(config["PathDegImages_rec"])
+                # try:                                                           # if path directory does not exist, create it!
+                #     os.stat(directory)
+                # except:
+                #     os.mkdir(directory)
+                # fn = config["PathDegImages_rec"] + degPC + '/Recolored_' + degPC + str(i) + '.bmp'   # Recolored Degraded
+                if not os.path.exists(config["PathDegImages_rec"]):    # Reference
+                    os.mkdir(config["PathDegImages_rec"])
+                directory = os.path.join( config["PathDegImages_rec"], degPC_rc)
+                if not os.path.exists(directory):
                     os.mkdir(directory)
-                fn = config["PathDegImages_rec"] + 'Recolored_' + degPC + str(i) + '.bmp'   # Recolored Degraded
+                fn = os.path.join(directory, 'Recolored_' + degPC + str(i) + '.bmp')   # Recolored Degraded
                 status = ProjQM.save_images(fn,cv2.cvtColor(ImRecD_padded, cv2.COLOR_RGB2BGR))
                 print(f'Recolored Degraded Image from view {i} written to file-system: {status}')
                 
-                directory = os.path.dirname(config["pathRefOMs"])
-                try:                                                           # if path directory does not exist, create it!
-                    os.stat(directory)
-                except:
+                if not os.path.exists(config["pathRefOMs"]):    # Reference
+                    os.mkdir(config["pathRefOMs"])
+                directory = os.path.join( config["pathRefOMs"], refPC)
+                if not os.path.exists(directory):
                     os.mkdir(directory)
-                fn = config["pathRefOMs"] + refPC + str(i) + '.bmp'
+                fn = os.path.join(directory, refPC + str(i) + '.bmp')
                 status = ProjQM.save_images(fn,(OMR_cropped * 255).astype(np.uint8))    # Reference occupancy maps
                 print(f'Reference occupancy map from view {i} written to file-system: {status}')
                 
-                directory = os.path.dirname(config["pathDegOMs"])
-                try:                                                           # if path directory does not exist, create it!
-                    os.stat(directory)
-                except:
+                if not os.path.exists(config["pathDegOMs"]):    # Reference
+                    os.mkdir(config["pathDegOMs"])
+                directory = os.path.join( config["pathDegOMs"], refPC)
+                if not os.path.exists(directory):
                     os.mkdir(directory)
-                fn = config["pathDegOMs"] + degPC + str(i) + '.bmp'            # Degraded occupancy maps
+                fn = os.path.join(directory, degPC + str(i) + '.bmp')           # Degraded occupancy maps
                 status = ProjQM.save_images(fn,(OMD_cropped * 255).astype(np.uint8))
                 print(f'Degraded occupancy map from view {i} written to file-system: {status}')
             
