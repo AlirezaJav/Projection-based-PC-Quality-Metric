@@ -7,10 +7,10 @@
 ```console
 pip install IQA_pytorch
 ```
-<p>PyTorch Image Quality (<a href="https://github.com/photosynthesis-team/piq">IQA</a>) is also required if you are intending to use HaarPSI metric</p>
+<p>PyTorch Image Quality (<a href="https://github.com/photosynthesis-team/piq">PIQ</a>) is also required if you are intending to use HaarPSI metric</p>
 
 ```console
-pip install IQA_pytorch
+pip install piq
 ```
 <p> An <a href="http://ponomarenko.info/psnrhvsm.htm">Implementation</a> of PSNR HVS is included in this repository. The corresponding papers are cited in our published article.</p> 
 <a href="http://www.open3d.org/docs/release/getting_started.html">Open3d</a> python packages are also necessary to read/write point clouds.
@@ -28,7 +28,9 @@ conda install -c open3d-admin -c conda-forge open3d
 ```console
 pip install opencv-python
 ```
-You need to also install <a href="https://numpy.org/">Numpy</a>, <a href="https://pandas.pydata.org/">Pandas</a>, and <a href="https://pytorch.org/">PyTorch</a> (in case that you want to run 2D metrics on GPU)
+You need to also install <a href="https://numpy.org/">Numpy</a>, <a href="https://pandas.pydata.org/">Pandas</a>, and <a href="https://pytorch.org/">PyTorch</a> 
+
+<b>NOTE:</b> IQA and PIQ do not support newer versions of pytorch. 
 
 <b>Usage</b>
 <p>All metric parameters should be set inside the configuration file (config.ini) before running the metric. If it is the first time runing the metric and recolored point clouds are not available:</p>
