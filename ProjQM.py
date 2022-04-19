@@ -291,35 +291,35 @@ def compute_vifp(original, decoded):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ref = prepare_image(original).to(device)
     dist = prepare_image(decoded).to(device)
-    q_metric = VIFs(channels=1)
+    q_metric = VIFs(channels=1).to(device)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_ssim(original, decoded):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ref = prepare_image(original).to(device)
     dist = prepare_image(decoded).to(device)
-    q_metric = SSIM(channels=1)
+    q_metric = SSIM(channels=1).to(device)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_msssim(original, decoded):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ref = prepare_image(original).to(device)
     dist = prepare_image(decoded).to(device)
-    q_metric = MS_SSIM(channels=1)
+    q_metric = MS_SSIM(channels=1).to(device)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_fsim(original, decoded):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ref = prepare_image(original).to(device)
     dist = prepare_image(decoded).to(device)
-    q_metric = FSIM(channels=1)
+    q_metric = FSIM(channels=1).to(device)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_vsi(original, decoded):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ref = prepare_image(original).to(device)
     dist = prepare_image(decoded).to(device)
-    q_metric = VSI()
+    q_metric = VSI().to(device)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_lpips(original, decoded):
