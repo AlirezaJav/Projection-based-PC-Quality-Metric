@@ -190,34 +190,35 @@ def orthographic_projection(cloud, precision, filtering):
                     img[2 * coord + 1][geometry[index][plane[coord][0]].astype(np.uint16)][geometry[index][plane[coord][1]].astype(np.uint16)][:] = color[index][:] * 255
                     ocp_map[2 * coord + 1][geometry[index][plane[coord][0]].astype(np.uint16)][geometry[index][plane[coord][1]].astype(np.uint16)] = 1
                     minDepth[coord][geometry[index][plane[coord][0]].astype(np.uint16)][geometry[index][plane[coord][1]].astype(np.uint16)] = geometry[index][coord]
-    w = 2
+    w = filtering
     c1 = c2 = c3 = c4 = c5 = c6 = 0
-    for i in range(w,2**precision - w):
-        for j in range(w,2**precision - w):
-            if (ocp_map[0][i,j] == 1) and (maxDepth[0][i,j] > sum(sum(maxDepth[0][i-w:i+w+1,j-w:j+w+1] * ocp_map[0][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[0][i-w:i+w+1,j-w:j+w+1])) + 20):
-                ocp_map[0][i,j] = 0
-                img[0][i,j,:] = 255   
-                c1 +=1
-            if (ocp_map[1][i,j] == 1) and (minDepth[0][i,j] < sum(sum(minDepth[0][i-w:i+w+1,j-w:j+w+1] * ocp_map[1][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[1][i-w:i+w+1,j-w:j+w+1])) - 20):
-                ocp_map[1][i,j] = 0
-                img[1][i,j,:] = 255
-                c2 +=1
-            if (ocp_map[2][i,j] == 1) and (maxDepth[1][i,j] > sum(sum(maxDepth[1][i-w:i+w+1,j-w:j+w+1] * ocp_map[2][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[2][i-w:i+w+1,j-w:j+w+1])) + 20):
-                ocp_map[2][i,j] = 0
-                img[2][i,j,:] = 255
-                c3 +=1
-            if (ocp_map[3][i,j] == 1) and (minDepth[1][i,j] < sum(sum(minDepth[1][i-w:i+w+1,j-w:j+w+1] * ocp_map[3][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[3][i-w:i+w+1,j-w:j+w+1])) - 20):
-                ocp_map[3][i,j] = 0
-                img[3][i,j,:] = 255
-                c4 +=1
-            if (ocp_map[4][i,j] == 1) and (maxDepth[2][i,j] > sum(sum(maxDepth[2][i-w:i+w+1,j-w:j+w+1] * ocp_map[4][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[4][i-w:i+w+1,j-w:j+w+1])) + 20):
-                ocp_map[4][i,j] = 0
-                img[4][i,j,:] = 255
-                c5 +=1
-            if (ocp_map[5][i,j] == 1) and (minDepth[2][i,j] < sum(sum(minDepth[2][i-w:i+w+1,j-w:j+w+1] * ocp_map[5][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[5][i-w:i+w+1,j-w:j+w+1])) - 20):
-                ocp_map[5][i,j] = 0
-                img[5][i,j,:] = 255
-                c6 +=1
+    if (w != 0):
+        for i in range(w,2**precision - w):
+            for j in range(w,2**precision - w):
+                if (ocp_map[0][i,j] == 1) and (maxDepth[0][i,j] > sum(sum(maxDepth[0][i-w:i+w+1,j-w:j+w+1] * ocp_map[0][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[0][i-w:i+w+1,j-w:j+w+1])) + 20):
+                    ocp_map[0][i,j] = 0
+                    img[0][i,j,:] = 255   
+                    c1 +=1
+                if (ocp_map[1][i,j] == 1) and (minDepth[0][i,j] < sum(sum(minDepth[0][i-w:i+w+1,j-w:j+w+1] * ocp_map[1][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[1][i-w:i+w+1,j-w:j+w+1])) - 20):
+                    ocp_map[1][i,j] = 0
+                    img[1][i,j,:] = 255
+                    c2 +=1
+                if (ocp_map[2][i,j] == 1) and (maxDepth[1][i,j] > sum(sum(maxDepth[1][i-w:i+w+1,j-w:j+w+1] * ocp_map[2][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[2][i-w:i+w+1,j-w:j+w+1])) + 20):
+                    ocp_map[2][i,j] = 0
+                    img[2][i,j,:] = 255
+                    c3 +=1
+                if (ocp_map[3][i,j] == 1) and (minDepth[1][i,j] < sum(sum(minDepth[1][i-w:i+w+1,j-w:j+w+1] * ocp_map[3][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[3][i-w:i+w+1,j-w:j+w+1])) - 20):
+                    ocp_map[3][i,j] = 0
+                    img[3][i,j,:] = 255
+                    c4 +=1
+                if (ocp_map[4][i,j] == 1) and (maxDepth[2][i,j] > sum(sum(maxDepth[2][i-w:i+w+1,j-w:j+w+1] * ocp_map[4][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[4][i-w:i+w+1,j-w:j+w+1])) + 20):
+                    ocp_map[4][i,j] = 0
+                    img[4][i,j,:] = 255
+                    c5 +=1
+                if (ocp_map[5][i,j] == 1) and (minDepth[2][i,j] < sum(sum(minDepth[2][i-w:i+w+1,j-w:j+w+1] * ocp_map[5][i-w:i+w+1,j-w:j+w+1]))/sum(sum(ocp_map[5][i-w:i+w+1,j-w:j+w+1])) - 20):
+                    ocp_map[5][i,j] = 0
+                    img[5][i,j,:] = 255
+                    c6 +=1
     
     print("{t1} points removed from 1st view".format(t1=c1))
     print("{t1} points removed from 2nd view".format(t1=c2))
@@ -267,9 +268,10 @@ def save_images(fn, image):
 
 
 def compute_dists(original, decoded):
-    ref = prepare_image(original)
-    dist = prepare_image(decoded)
-    q_metric = DISTS()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    ref = prepare_image(original).to(device)
+    dist = prepare_image(decoded).to(device)
+    q_metric = DISTS().to(device)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_haarpsi(original, decoded):
@@ -286,26 +288,30 @@ def compute_hvspsnr(original, decoded):
     return p
     
 def compute_vifp(original, decoded):
-    ref = prepare_image(original)
-    dist = prepare_image(decoded)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    ref = prepare_image(original).to(device)
+    dist = prepare_image(decoded).to(device)
     q_metric = VIFs(channels=1)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_ssim(original, decoded):
-    ref = prepare_image(original)
-    dist = prepare_image(decoded)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    ref = prepare_image(original).to(device)
+    dist = prepare_image(decoded).to(device)
     q_metric = SSIM(channels=1)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_msssim(original, decoded):
-    ref = prepare_image(original)
-    dist = prepare_image(decoded)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    ref = prepare_image(original).to(device)
+    dist = prepare_image(decoded).to(device)
     q_metric = MS_SSIM(channels=1)
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_fsim(original, decoded):
-    ref = prepare_image(original)
-    dist = prepare_image(decoded)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    ref = prepare_image(original).to(device)
+    dist = prepare_image(decoded).to(device)
     q_metric = FSIM(channels=1)
     return q_metric(dist, ref, as_loss=False).item()
 
@@ -313,7 +319,7 @@ def compute_vsi(original, decoded):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ref = prepare_image(original).to(device)
     dist = prepare_image(decoded).to(device)
-    q_metric = VSI().to(device)
+    q_metric = VSI()
     return q_metric(dist, ref, as_loss=False).item()
 
 def compute_lpips(original, decoded):
